@@ -1,9 +1,18 @@
+import { useRouter } from "next/router";
+
 const Login = () => {
+  const router = useRouter();
+
+  const handleLogin = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    router.push("/");
+  };
+
   return (
     <div className="container mt-4">
       <h1>登入</h1>
 
-      <form>
+      <form onSubmit={(e: React.SyntheticEvent) => handleLogin(e)}>
         <div className="form-group">
           <label htmlFor="exampleInputEmail1">Email address</label>
           <input
