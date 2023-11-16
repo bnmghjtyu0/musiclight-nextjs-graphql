@@ -1,0 +1,6 @@
+{
+  // 推薦安裝清單
+  "recommendations": ["rodrigovallades.es7-react-js-snippets"],
+  // 不推薦安裝清單
+  "unwantedRecommendations": []
+}
