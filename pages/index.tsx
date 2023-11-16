@@ -6,7 +6,7 @@ const Home = ({ data }: { data: Data }) => (
   <>
     <h1>首頁</h1>
 
-    {data.testingData}
+    {data?.testingData}
   </>
 );
 
@@ -21,5 +21,5 @@ const apiCall = () =>
   new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve({ testingData: "Just some testing data" });
-    }, 5000);
+    }, 200);
   });
