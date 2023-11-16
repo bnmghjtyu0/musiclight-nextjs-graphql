@@ -1,0 +1,18 @@
+# 關於 lefthook.yml
+# lefthook 是一個 npm 套件，
+# 可以快速建立 husky 的 pre-commit
+# 1. 安裝套件: npm install -g lefthook
+# 2. 執行 lefthook install
+
+pre-commit:
+  parallel: true
+  commands:
+    lint:
+      run: >
+        npx prettier --write pages && npx next lint && git add .
+
+commit-msg:
+  commands:
+    validate:
+      run: >
+        npx --no -- commitlint --edit {1}
