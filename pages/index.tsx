@@ -20,6 +20,6 @@ export default Home;
 const apiCall = () =>
   new Promise((resolve, reject) => {
     setTimeout(() => {
-      resolve({ testingData: "Just some testing data" });
+      resolve({ testingData: 'Just some testing data' });
     }, 200);
   });
