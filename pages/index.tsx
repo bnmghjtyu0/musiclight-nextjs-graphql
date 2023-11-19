@@ -1,25 +1,49 @@
-interface Data {
-  testingData: string;
+interface Portfolio {
+  _id: string;
+  title: string;
 }
 
-const Home = ({ data }: { data: Data }) => (
-  <>
-    <h1>首頁</h1>
+const fetchData = () => {
+  const query = `
+    query Portfolios {
+      portfolios {
+        _id, title
+      }
+    }
+  `;
+  return fetch('http://localhost:3000/graphql', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      query,
+    }),
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .then((json) => {
+      return json.data.portfolios;
+    });
+};
 
-    {data?.testingData}
-  </>
-);
+interface Props {
+  portfolios: Portfolio[];
+}
 
-Home.getInitialProps = async () => {
-  const data = await apiCall();
-  return { data };
+const Home = ({ portfolios }: Props) => {
+  return (
+    <>
+      <h1>首頁</h1>
+      {JSON.stringify(portfolios)}
+    </>
+  );
+};
+
+Home.getInitialProps = async (): Promise<Props> => {
+  const portfolios = await fetchData();
+  return { portfolios };
 };
 
 export default Home;
-
-const apiCall = () =>
-  new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve({ testingData: 'Just some testing data' });
-    }, 200);
-  });
