@@ -13,7 +13,7 @@ const handle = app.getRequestHandler();
 const data = {
   portfolios: [
     {
-      _id: 'xxx1',
+      _id: 'a1',
       title: 'Job1',
       description: 'xxxx1',
       jobTitle: 'engineer',
@@ -23,7 +23,7 @@ const data = {
       endDate: '1911/01/01',
     },
     {
-      _id: 'xxx2',
+      _id: 'a2',
       title: 'Job2',
       description: 'xxxx1',
       jobTitle: 'engineer',
@@ -40,7 +40,7 @@ app.prepare().then(() => {
 
   const schema = buildSchema(`
     type Portfolio {
-      _id: ID!
+      _id: ID
       title: String
       content: String
       jobTitle: String
@@ -53,7 +53,7 @@ app.prepare().then(() => {
     }
     type Query {
       hello: String,
-      portfolio: Portfolio
+      portfolio(id: ID): Portfolio
       portfolios: [Portfolio]
     }
   `);
@@ -63,8 +63,9 @@ app.prepare().then(() => {
     hello: () => {
       return 'Hello World!';
     },
-    portfolio: () => {
-      return data.portfolios[0];
+    portfolio: ({ id }: { id: string }) => {
+      const portfolio = data.portfolios.find((d) => d._id === id);
+      return portfolio;
     },
     portfolios: () => {
       return data.portfolios;
