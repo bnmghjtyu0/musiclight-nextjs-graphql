@@ -35,12 +35,14 @@ export class PortfolioApi {
   /** 取得單筆資料 */
   fetchPortfolioById(id: string): Promise<PortfolioByIdResponse> {
     const query = `
-    query Portfolio {
-      portfolio(id: "${id}") {
+    query Portfolio($id: ID) {
+      portfolio(id: $id) {
         _id, title,description,jobTitle,startDate,endDate
       }
     }
   `;
+
+    const variables = { id };
     return fetch('http://localhost:3000/graphql', {
       method: 'POST',
       headers: {
@@ -48,6 +50,7 @@ export class PortfolioApi {
       },
       body: JSON.stringify({
         query,
+        variables,
       }),
     })
       .then((res) => {

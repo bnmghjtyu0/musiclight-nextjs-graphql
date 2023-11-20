@@ -1,4 +1,4 @@
-interface Portfolio {
+export interface Portfolio {
   _id: string;
   title: string;
   description: string;
