@@ -2,6 +2,8 @@ import express, { Express, NextFunction, Request, Response } from 'express';
 import qraphqlHttp from 'express-graphql';
 import { buildSchema } from 'graphql';
 import next from 'next';
+import { portfolioResolvers } from './graphql/resolvers';
+import { portfolioTypes } from './graphql/types';
 
 const port = process.env.PORT || 3000;
 
@@ -10,47 +12,11 @@ const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-const data = {
-  portfolios: [
-    {
-      _id: 'a1',
-      title: 'Job1',
-      description: 'xxxx1',
-      jobTitle: 'engineer',
-      daysOfExperience: true,
-      isCurrentlyEmployed: true,
-      startDate: '1911/01/01',
-      endDate: '1911/01/01',
-    },
-    {
-      _id: 'a2',
-      title: 'Job2',
-      description: 'xxxx1',
-      jobTitle: 'engineer',
-      daysOfExperience: true,
-      isCurrentlyEmployed: true,
-      startDate: '1911/01/01',
-      endDate: '1911/01/01',
-    },
-  ],
-};
-
 app.prepare().then(() => {
   const server: Express = express();
 
   const schema = buildSchema(`
-    type Portfolio {
-      _id: ID
-      title: String
-      content: String
-      jobTitle: String
-      description: String
-      daysOfExperience: Boolean
-      isCurrentlyEmployed: Boolean
-      startDate:String
-      endDate: String
-
-    }
+    ${portfolioTypes},
     type Query {
       hello: String,
       portfolio(id: ID): Portfolio
@@ -60,16 +26,7 @@ app.prepare().then(() => {
 
   // 提供解決每個 api endpoint
   const root = {
-    hello: () => {
-      return 'Hello World!';
-    },
-    portfolio: ({ id }: { id: string }) => {
-      const portfolio = data.portfolios.find((d) => d._id === id);
-      return portfolio;
-    },
-    portfolios: () => {
-      return data.portfolios;
-    },
+    ...portfolioResolvers,
   };
 
   server.use(

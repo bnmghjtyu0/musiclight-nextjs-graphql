@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon server.ts",
-    "build": "next build",
-    "start": "NODE_ENV=production ts-node server.ts",
+    "dev": "nodemon server/index.ts",
+    "build": "next build && tsc --project tsconfig.server.json",
+    "start": "NODE_ENV=production node dist/index.js",
     "lint": "next lint"
   },
   "dependencies": {
