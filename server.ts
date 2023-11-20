@@ -10,26 +10,30 @@ const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-
 const data = {
-  portfolios:[
+  portfolios: [
     {
-      _id:'xxx1',
-      title:'xx1',
-      jobTitle:'engineer',
-      daysOfExperience:true,
-      isCurrentlyEmployed:true
+      _id: 'xxx1',
+      title: 'Job1',
+      description: 'xxxx1',
+      jobTitle: 'engineer',
+      daysOfExperience: true,
+      isCurrentlyEmployed: true,
+      startDate: '1911/01/01',
+      endDate: '1911/01/01',
     },
     {
-      _id:'xxx2',
-      title:'xx1',
-      content:'xxxx1',
-      jobTitle:'engineer',
-      daysOfExperience:true,
-      isCurrentlyEmployed:true
-    }
-  ]
-}
+      _id: 'xxx2',
+      title: 'Job2',
+      description: 'xxxx1',
+      jobTitle: 'engineer',
+      daysOfExperience: true,
+      isCurrentlyEmployed: true,
+      startDate: '1911/01/01',
+      endDate: '1911/01/01',
+    },
+  ],
+};
 
 app.prepare().then(() => {
   const server: Express = express();
@@ -40,8 +44,11 @@ app.prepare().then(() => {
       title: String
       content: String
       jobTitle: String
+      description: String
       daysOfExperience: Boolean
       isCurrentlyEmployed: Boolean
+      startDate:String
+      endDate: String
 
     }
     type Query {
@@ -56,12 +63,12 @@ app.prepare().then(() => {
     hello: () => {
       return 'Hello World!';
     },
-    portfolio: ()=>{
-      return data.portfolios[0]
+    portfolio: () => {
+      return data.portfolios[0];
     },
-    portfolios: ()=>{
-      return data.portfolios
-    }
+    portfolios: () => {
+      return data.portfolios;
+    },
   };
 
   server.use(

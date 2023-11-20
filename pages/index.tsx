@@ -1,13 +1,19 @@
+import PortfolioCard from '@/components/portfolios/PortfolioCard';
+
 interface Portfolio {
   _id: string;
   title: string;
+  description: string;
+  jobTitle: string;
+  startDate: string;
+  endDate: string;
 }
 
 const fetchData = () => {
   const query = `
     query Portfolios {
       portfolios {
-        _id, title
+        _id, title,description,jobTitle,startDate,endDate
       }
     }
   `;
@@ -36,7 +42,17 @@ const Home = ({ portfolios }: Props) => {
   return (
     <>
       <h1>首頁</h1>
-      {JSON.stringify(portfolios)}
+      <div className='container'>
+        <div className='row'>
+          {portfolios.map((portfolio) => {
+            return (
+              <div key={portfolio._id} className='col-md-4'>
+                <PortfolioCard portfolio={portfolio} />
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </>
   );
 };

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon --watch server.ts",
+    "dev": "nodemon server.ts",
     "build": "next build",
     "start": "NODE_ENV=production ts-node server.ts",
     "lint": "next lint"
