@@ -1,9 +1,10 @@
-import { ApiClient } from '@/core/models/api/common-api';
+import { ApiClient } from "@/core/models/api/common-api";
 import {
   CreatePortfolioResponse,
   PortfolioByIdResponse,
   PortfoliosResponse,
-} from '@/core/models/api/portfolio.model';
+  UpdatePortfolioResponse,
+} from "@/core/models/api/portfolio.model";
 
 /** 取得 portfolio */
 export class PortfolioApi {
@@ -16,10 +17,10 @@ export class PortfolioApi {
             }
           }
         `;
-    return fetch('http://localhost:3000/graphql', {
-      method: 'POST',
+    return fetch("http://localhost:3000/graphql", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         query,
@@ -44,10 +45,10 @@ export class PortfolioApi {
   `;
 
     const variables = { id };
-    return fetch('http://localhost:3000/graphql', {
-      method: 'POST',
+    return fetch("http://localhost:3000/graphql", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         query,
@@ -91,10 +92,10 @@ export class PortfolioApi {
             }
           `;
 
-    return fetch('http://localhost:3000/graphql', {
-      method: 'POST',
+    return fetch("http://localhost:3000/graphql", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         query,
@@ -105,6 +106,40 @@ export class PortfolioApi {
           throw new Error(res.statusText);
         }
         return res.json() as Promise<ApiClient<CreatePortfolioResponse>>;
+      })
+      .then((json) => {
+        return json.data;
+      });
+  }
+
+  /** 取得單筆資料 */
+  updatePortfolio(id: string): Promise<UpdatePortfolioResponse> {
+    const query = `
+            mutation UpdatePortfolio {
+              updatePortfolio(id: "${id}",
+                input: {
+                  title: "Job666"
+                }
+              ) {
+                title
+              }
+            }
+          `;
+
+    return fetch("http://localhost:3000/graphql", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query,
+      }),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(res.statusText);
+        }
+        return res.json() as Promise<ApiClient<UpdatePortfolioResponse>>;
       })
       .then((json) => {
         return json.data;

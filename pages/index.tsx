@@ -24,6 +24,16 @@ const Home = ({ data }: Props) => {
 
     setPortfolios(newPortfolios);
   };
+
+  const updatePortfolio = async (id: string) => {
+    const portfolioApi = new PortfolioApi();
+    const updatePortfolio = await portfolioApi.updatePortfolio(id);
+    const index = portfolios.findIndex((d) => d._id === id);
+    const newPortfolios: any = portfolios.slice();
+    newPortfolios[index] = updatePortfolio;
+    setPortfolios(newPortfolios);
+  };
+
   return (
     <>
       <h1>首頁</h1>
@@ -49,6 +59,10 @@ const Home = ({ data }: Props) => {
                 >
                   <PortfolioCard portfolio={portfolio} />
                 </AppLink>
+
+                <button onClick={() => updatePortfolio(portfolio._id)}>
+                  update
+                </button>
               </div>
             );
           })}

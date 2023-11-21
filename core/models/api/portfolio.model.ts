@@ -23,3 +23,8 @@ export type PortfoliosResponse = {
 export type CreatePortfolioResponse = {
   createPortfolio: Portfolio;
 };
+
+/** 新增資料 */
+export type UpdatePortfolioResponse = {
+  updatePortfolio: Portfolio;
+};
