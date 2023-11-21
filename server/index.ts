@@ -22,6 +22,10 @@ app.prepare().then(() => {
       portfolio(id: ID): Portfolio
       portfolios: [Portfolio]
     }
+
+    type Mutation {
+      createPortfolio(input: PortfolioInput): Portfolio
+    }
   `);
 
   // 提供解決每個 api endpoint

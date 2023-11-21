@@ -1,3 +1,4 @@
+import { Portfolio } from '@/core/models/api/portfolio.model';
 const data = {
   portfolios: [
     {
@@ -33,6 +34,13 @@ const portfolioResolvers = {
   },
   portfolios: () => {
     return data.portfolios;
+  },
+  createPortfolio: ({ input }: { input: Portfolio }) => {
+    const _id = require('crypto').randomBytes(10).toString('hex');
+    const newPortfolio = { ...input };
+    newPortfolio._id = _id;
+    data.portfolios.push(newPortfolio);
+    return newPortfolio;
   },
 };
 
