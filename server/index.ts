@@ -1,8 +1,7 @@
+import { ApolloServer, gql } from 'apollo-server-express';
 import express, { Express, NextFunction, Request, Response } from 'express';
-import qraphqlHttp from 'express-graphql';
-import { buildSchema } from 'graphql';
 import next from 'next';
-import { portfolioResolvers } from './graphql/resolvers';
+import { portfolioMutations, portfolioQueries } from './graphql/resolvers';
 import { portfolioTypes } from './graphql/types';
 
 const port = process.env.PORT || 3000;
@@ -15,10 +14,10 @@ const handle = app.getRequestHandler();
 app.prepare().then(() => {
   const server: Express = express();
 
-  const schema = buildSchema(`
-    ${portfolioTypes},
+  const typeDefs = gql`
+    ${portfolioTypes}
     type Query {
-      hello: String,
+      hello: String
       portfolio(id: ID): Portfolio
       portfolios: [Portfolio]
     }
@@ -26,21 +25,20 @@ app.prepare().then(() => {
     type Mutation {
       createPortfolio(input: PortfolioInput): Portfolio
     }
-  `);
+  `;
 
   // 提供解決每個 api endpoint
-  const root = {
-    ...portfolioResolvers,
+  const resolvers = {
+    Query: {
+      ...portfolioQueries,
+    },
+    Mutation: {
+      ...portfolioMutations,
+    },
   };
 
-  server.use(
-    '/graphql',
-    qraphqlHttp({
-      schema,
-      rootValue: root,
-      graphiql: true,
-    })
-  );
+  const apolloServer = new ApolloServer({ typeDefs, resolvers });
+  apolloServer.applyMiddleware({ app: server });
 
   server.all('*', (req: Request, res: Response) => {
     return handle(req, res);
