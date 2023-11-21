@@ -18,3 +18,8 @@ export type PortfolioByIdResponse = {
 export type PortfoliosResponse = {
   portfolios: Portfolio[];
 };
+
+/** 新增資料 */
+export type CreatePortfolioResponse = {
+  createPortfolio: Portfolio;
+};
