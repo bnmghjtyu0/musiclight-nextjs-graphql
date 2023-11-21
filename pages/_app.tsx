@@ -1,16 +1,16 @@
-import Navbar from '@/components/shared/Navbar';
-import '@/styles/index.scss';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import Navbar from "@/components/shared/Navbar";
+import "@/styles/index.scss";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-import type { AppProps } from 'next/app';
-import App from 'next/app';
+import type { AppProps } from "next/app";
+import App from "next/app";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <>
-      {Component.name !== 'Login' && <Navbar />}
+      {Component.name !== "Login" && <Navbar />}
       {pageProps.appData}
-      <div className='container'>
+      <div className="container">
         <Component {...pageProps} />
       </div>
     </>
@@ -22,7 +22,7 @@ MyApp.getInitialProps = async (context: any) => {
     App.getInitialProps && (await App.getInitialProps(context));
 
   return {
-    pageProps: { appData: 'Hello _App Component', ...initialProps.pageProps },
+    pageProps: { appData: "Hello _App Component", ...initialProps.pageProps },
   };
 };
 

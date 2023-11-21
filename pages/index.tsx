@@ -1,11 +1,11 @@
-import PortfolioCard from '@/components/portfolios/PortfolioCard';
-import AppLink from '@/components/shared/AppLink';
+import PortfolioCard from "@/components/portfolios/PortfolioCard";
+import AppLink from "@/components/shared/AppLink";
 import {
   Portfolio,
   PortfoliosResponse,
-} from '@/core/models/api/portfolio.model';
-import { PortfolioApi } from '@/core/services/api/portfolio';
-import { useState } from 'react';
+} from "@/core/models/api/portfolio.model";
+import { PortfolioApi } from "@/core/services/api/portfolio";
+import { useState } from "react";
 
 interface Props {
   data: PortfoliosResponse;
@@ -27,25 +27,25 @@ const Home = ({ data }: Props) => {
   return (
     <>
       <h1>首頁</h1>
-      <div className='container'>
-        <div className='row'>
+      <div className="container">
+        <div className="row">
           <button
-            type='button'
-            className='btn btn-primary'
+            type="button"
+            className="btn btn-primary"
             onClick={createPortfolio}
           >
             create portfolio
           </button>
         </div>
       </div>
-      <div className='container'>
-        <div className='row'>
+      <div className="container">
+        <div className="row">
           {portfolios.map((portfolio) => {
             return (
-              <div key={portfolio._id} className='col-md-4'>
+              <div key={portfolio._id} className="col-md-4">
                 <AppLink
                   href={`/portfolio/${portfolio._id}`}
-                  className='card-link'
+                  className="card-link"
                 >
                   <PortfolioCard portfolio={portfolio} />
                 </AppLink>

@@ -1,4 +1,4 @@
-import { PortfolioApi } from '@/core/services/api/portfolio';
+import { PortfolioApi } from "@/core/services/api/portfolio";
 
 const PortfolioDetail = ({ query, portfolio }: any) => {
   const id = query.id;
