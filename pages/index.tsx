@@ -34,6 +34,17 @@ const Home = ({ data }: Props) => {
     setPortfolios(newPortfolios);
   };
 
+  const deletePortfolio = async (id: string) => {
+    const portfolioApi = new PortfolioApi();
+    const deleteId = await portfolioApi.deletePortfolio(id);
+    const index = portfolios.findIndex(
+      (d) => d._id === deleteId.deletePortfolio
+    );
+    const newPortfolios: any = portfolios.slice();
+    newPortfolios.splice(index, 1);
+    setPortfolios(newPortfolios);
+  };
+
   return (
     <>
       <h1>首頁</h1>
@@ -60,8 +71,17 @@ const Home = ({ data }: Props) => {
                   <PortfolioCard portfolio={portfolio} />
                 </AppLink>
 
-                <button onClick={() => updatePortfolio(portfolio._id)}>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => updatePortfolio(portfolio._id)}
+                >
                   update
+                </button>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => deletePortfolio(portfolio._id)}
+                >
+                  刪除
                 </button>
               </div>
             );

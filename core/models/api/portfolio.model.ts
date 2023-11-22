@@ -28,3 +28,8 @@ export type CreatePortfolioResponse = {
 export type UpdatePortfolioResponse = {
   updatePortfolio: Portfolio;
 };
+
+/** 刪除資料 */
+export type DeletePortfolioResponse = {
+  deletePortfolio: string;
+};

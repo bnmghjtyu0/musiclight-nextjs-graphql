@@ -1,6 +1,7 @@
 import { ApiClient } from "@/core/models/api/common-api";
 import {
   CreatePortfolioResponse,
+  DeletePortfolioResponse,
   PortfolioByIdResponse,
   PortfoliosResponse,
   UpdatePortfolioResponse,
@@ -140,6 +141,33 @@ export class PortfolioApi {
           throw new Error(res.statusText);
         }
         return res.json() as Promise<ApiClient<UpdatePortfolioResponse>>;
+      })
+      .then((json) => {
+        return json.data;
+      });
+  }
+  /** 刪除資料 */
+  deletePortfolio(id: string): Promise<DeletePortfolioResponse> {
+    const query = `
+          mutation DeletePortfolio {
+            deletePortfolio(id: "${id}")
+          }
+          `;
+
+    return fetch("http://localhost:3000/graphql", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query,
+      }),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(res.statusText);
+        }
+        return res.json() as Promise<ApiClient<DeletePortfolioResponse>>;
       })
       .then((json) => {
         return json.data;
