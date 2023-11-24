@@ -1,18 +1,26 @@
+import { GET_PORTFOLIOS } from "@/apollo/queries";
 import PortfolioCard from "@/components/portfolios/PortfolioCard";
 import AppLink from "@/components/shared/AppLink";
-import {
-  Portfolio,
-  PortfoliosResponse,
-} from "@/core/models/api/portfolio.model";
+import { Portfolio } from "@/core/models/api/portfolio.model";
 import { PortfolioApi } from "@/core/services/api/portfolio";
-import { useState } from "react";
+import { useLazyQuery } from "@apollo/react-hooks";
+import { useEffect, useState } from "react";
 
-interface Props {
-  data: PortfoliosResponse;
-}
+const Home = () => {
+  const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
+  const [getPortfolios, { loading, data }] = useLazyQuery(GET_PORTFOLIOS);
 
-const Home = ({ data }: Props) => {
-  const [portfolios, setPortfolios] = useState(data.portfolios);
+  useEffect(() => {
+    getPortfolios();
+  }, []);
+
+  if (data && data.portfolios.length > 0 && portfolios.length === 0) {
+    setPortfolios(data.portfolios);
+  }
+
+  if (loading) {
+    return <span>Loading ...</span>;
+  }
 
   const createPortfolio = async () => {
     const portfolioApi = new PortfolioApi();
@@ -90,12 +98,6 @@ const Home = ({ data }: Props) => {
       </div>
     </>
   );
-};
-
-Home.getInitialProps = async (): Promise<Props> => {
-  const portfolioApi = new PortfolioApi();
-  const res = await portfolioApi.fetchPortfolios();
-  return { data: res };
 };
 
 export default Home;
