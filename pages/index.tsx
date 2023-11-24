@@ -1,37 +1,53 @@
-import { GET_PORTFOLIOS } from "@/apollo/queries";
+import { CREATE_PORTFOLIO, GET_PORTFOLIOS } from "@/apollo/queries";
 import PortfolioCard from "@/components/portfolios/PortfolioCard";
 import AppLink from "@/components/shared/AppLink";
 import { Portfolio } from "@/core/models/api/portfolio.model";
 import { PortfolioApi } from "@/core/services/api/portfolio";
-import { useLazyQuery } from "@apollo/react-hooks";
+import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import { useEffect, useState } from "react";
 
 const Home = () => {
   const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
   const [getPortfolios, { loading, data }] = useLazyQuery(GET_PORTFOLIOS);
 
+  // const onPortfolioCreated = (data: CreatePortfolioResponse): any => {
+  //   setPortfolios([...portfolios, data.createPortfolio]);
+  // };
+
+  // const [createPortfolio] = useMutation(CREATE_PORTFOLIO, {
+  //   onCompleted: onPortfolioCreated,
+  // });
+
+  const [createPortfolio] = useMutation(CREATE_PORTFOLIO, {
+    update(cache, { data: { createPortfolio } }) {
+      const { portfolios }: any = cache.readQuery({
+        query: GET_PORTFOLIOS,
+      });
+
+      cache.writeQuery({
+        query: GET_PORTFOLIOS,
+        data: {
+          portfolios: [...portfolios, createPortfolio],
+        },
+      });
+    },
+  });
+
   useEffect(() => {
     getPortfolios();
   }, []);
 
-  if (data && data.portfolios.length > 0 && portfolios.length === 0) {
+  if (
+    data &&
+    data.portfolios.length > 0 &&
+    (portfolios.length === 0 || data.portfolios.length !== portfolios.length)
+  ) {
     setPortfolios(data.portfolios);
   }
 
   if (loading) {
     return <span>Loading ...</span>;
   }
-
-  const createPortfolio = async () => {
-    const portfolioApi = new PortfolioApi();
-    const newPortfolio = await portfolioApi.createPortfolio();
-    const newPortfolios: Portfolio[] = [
-      ...portfolios,
-      newPortfolio.createPortfolio,
-    ];
-
-    setPortfolios(newPortfolios);
-  };
 
   const updatePortfolio = async (id: string) => {
     const portfolioApi = new PortfolioApi();
@@ -61,7 +77,7 @@ const Home = () => {
           <button
             type="button"
             className="btn btn-primary"
-            onClick={createPortfolio}
+            onClick={() => createPortfolio()}
           >
             create portfolio
           </button>

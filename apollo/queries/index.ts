@@ -25,3 +25,27 @@ export const GET_PORTFOLIOS = gql`
     }
   }
 `;
+
+export const CREATE_PORTFOLIO = gql`
+  mutation CreatePortfolio {
+    createPortfolio(
+      input: {
+        title: "Job3"
+        description: "xxxx1"
+        jobTitle: "engineer"
+        daysOfExperience: true
+        isCurrentlyEmployed: true
+        startDate: "1911/01/01"
+        endDate: "1911/01/01"
+      }
+    ) {
+      title
+      description
+      jobTitle
+      daysOfExperience
+      isCurrentlyEmployed
+      startDate
+      endDate
+    }
+  }
+`;
