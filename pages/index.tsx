@@ -1,6 +1,7 @@
 import { CREATE_PORTFOLIO, GET_PORTFOLIOS } from "@/apollo/queries";
 import PortfolioCard from "@/components/portfolios/PortfolioCard";
 import AppLink from "@/components/shared/AppLink";
+import withApollo from "@/core/hoc/withApollo";
 import {
   Portfolio,
   PortfoliosResponse,
@@ -123,4 +124,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default withApollo(Home);

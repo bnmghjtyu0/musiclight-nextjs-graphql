@@ -1,9 +1,16 @@
 import { GET_PORTFOLIO } from "@/apollo/queries";
+import withApollo from "@/core/hoc/withApollo";
 import { Portfolio } from "@/core/models/api/portfolio.model";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { useEffect, useState } from "react";
 
-const PortfolioDetail = ({ query }: any) => {
+interface Props {
+  query: {
+    id: string;
+  };
+}
+
+const PortfolioDetail = ({ query }: Props) => {
   const id = query.id;
   const [portfolio, setPortfolio] = useState<Portfolio | null>(null);
   const [getPortfolio, { loading, data }] = useLazyQuery(GET_PORTFOLIO);
@@ -28,11 +35,7 @@ const PortfolioDetail = ({ query }: any) => {
   );
 };
 
-PortfolioDetail.getInitialProps = async ({
-  query,
-}: {
-  query: { id: string };
-}) => {
+PortfolioDetail.getInitialProps = async ({ query }: Props) => {
   return { query };
 };
-export default PortfolioDetail;
+export default withApollo(PortfolioDetail);
