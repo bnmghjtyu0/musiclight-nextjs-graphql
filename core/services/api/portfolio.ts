@@ -8,7 +8,10 @@ import {
 
 /** 取得 portfolio */
 export class PortfolioApi {
-  /** 取得全部資料 */
+  /**
+   * 取得全部資料
+   * @return {Promise<PortfoliosResponse>}
+   */
   fetchPortfolios = (): Promise<PortfoliosResponse> => {
     const query = `
           query Portfolios {
@@ -34,7 +37,11 @@ export class PortfolioApi {
       });
   };
 
-  /** 取得單筆資料 */
+  /**
+   * 取得單筆資料
+   * @param {string} id
+   * @return {Promise<PortfolioByIdResponse>}
+   */
   fetchPortfolioById(id: string): Promise<PortfolioByIdResponse> {
     const query = `
     query Portfolio($id: ID) {
@@ -66,7 +73,11 @@ export class PortfolioApi {
       });
   }
 
-  /** 取得單筆資料 */
+  /**
+   * 取得單筆資料
+   * @param {string} id
+   * @return {Promise<UpdatePortfolioResponse>}
+   */
   updatePortfolio(id: string): Promise<UpdatePortfolioResponse> {
     const query = `
             mutation UpdatePortfolio {
@@ -99,7 +110,11 @@ export class PortfolioApi {
         return json.data;
       });
   }
-  /** 刪除資料 */
+  /**
+   * 刪除資料
+   * @param {string} id
+   * @return {Promise<DeletePortfolioResponse>}
+   */
   deletePortfolio(id: string): Promise<DeletePortfolioResponse> {
     const query = `
           mutation DeletePortfolio {

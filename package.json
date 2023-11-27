@@ -6,7 +6,7 @@
     "dev": "nodemon server/index.ts",
     "build": "next build && tsc --project tsconfig.server.json",
     "start": "NODE_ENV=production node dist/index.js",
-    "lint": "next lint"
+    "lint": "eslint --fix ."
   },
   "engines": {
     "node": "18.17.0"
@@ -34,6 +34,7 @@
     "@types/react-dom": "^18",
     "bootstrap": "^4.4.1",
     "eslint": "^8",
+    "eslint-config-google": "^0.14.0",
     "eslint-config-next": "14.0.2",
     "eslint-config-prettier": "^9.0.0",
     "lefthook": "^1.5.2",

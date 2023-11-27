@@ -35,7 +35,7 @@ const Home = () => {
 
   useEffect(() => {
     getPortfolios();
-  }, []);
+  }, [getPortfolios]);
 
   if (
     data &&

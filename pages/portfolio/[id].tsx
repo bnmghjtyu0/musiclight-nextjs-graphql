@@ -10,7 +10,7 @@ const PortfolioDetail = ({ query }: any) => {
 
   useEffect(() => {
     getPortfolio({ variables: { id } });
-  }, []);
+  }, [getPortfolio, id]);
 
   if (data && !portfolio) {
     setPortfolio(data.portfolio);
