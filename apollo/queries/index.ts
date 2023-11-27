@@ -39,6 +39,7 @@ export const CREATE_PORTFOLIO = gql`
         endDate: "1911/01/01"
       }
     ) {
+      _id
       title
       description
       jobTitle

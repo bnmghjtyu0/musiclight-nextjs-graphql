@@ -1,7 +1,11 @@
 import { CREATE_PORTFOLIO, GET_PORTFOLIOS } from "@/apollo/queries";
 import PortfolioCard from "@/components/portfolios/PortfolioCard";
 import AppLink from "@/components/shared/AppLink";
-import { Portfolio } from "@/core/models/api/portfolio.model";
+import {
+  Portfolio,
+  PortfoliosResponse,
+  UpdatePortfolioResponse,
+} from "@/core/models/api/portfolio.model";
 import { PortfolioApi } from "@/core/services/api/portfolio";
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import { useEffect, useState } from "react";
@@ -10,32 +14,28 @@ const Home = () => {
   const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
   const [getPortfolios, { loading, data }] = useLazyQuery(GET_PORTFOLIOS);
 
-  // const onPortfolioCreated = (data: CreatePortfolioResponse): any => {
-  //   setPortfolios([...portfolios, data.createPortfolio]);
-  // };
-
-  // const [createPortfolio] = useMutation(CREATE_PORTFOLIO, {
-  //   onCompleted: onPortfolioCreated,
-  // });
-
+  // 新增有 cache
   const [createPortfolio] = useMutation(CREATE_PORTFOLIO, {
-    update(cache, { data: { createPortfolio } }) {
-      const { portfolios }: any = cache.readQuery({
+    update(cache, { data }) {
+      const portfolios: PortfoliosResponse | null = cache.readQuery({
         query: GET_PORTFOLIOS,
       });
+      // debugger;
 
-      cache.writeQuery({
-        query: GET_PORTFOLIOS,
-        data: {
-          portfolios: [...portfolios, createPortfolio],
-        },
-      });
+      if (portfolios) {
+        cache.writeQuery({
+          query: GET_PORTFOLIOS,
+          data: {
+            portfolios: [...portfolios.portfolios, data.createPortfolio],
+          },
+        });
+      }
     },
   });
 
   useEffect(() => {
     getPortfolios();
-  }, [getPortfolios]);
+  }, []);
 
   if (
     data &&
@@ -51,10 +51,17 @@ const Home = () => {
 
   const updatePortfolio = async (id: string) => {
     const portfolioApi = new PortfolioApi();
-    const updatePortfolio = await portfolioApi.updatePortfolio(id);
+    const updatePortfolio: UpdatePortfolioResponse =
+      await portfolioApi.updatePortfolio(id);
     const index = portfolios.findIndex((d) => d._id === id);
     const newPortfolios: any = portfolios.slice();
-    newPortfolios[index] = updatePortfolio;
+
+    newPortfolios[index] = {
+      ...newPortfolios[index],
+      title: updatePortfolio.updatePortfolio.title,
+    };
+
+    console.log(newPortfolios);
     setPortfolios(newPortfolios);
   };
 
