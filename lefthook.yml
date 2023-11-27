@@ -9,7 +9,7 @@ pre-commit:
   commands:
     lint:
       run: >
-        npx prettier --write pages && npm run lint && git add .
+        npx prettier --write pages && npm run lint
 
 commit-msg:
   commands:
