@@ -1,6 +1,5 @@
-import { GET_PORTFOLIO } from "@/apollo/queries";
+import { useGetPortfolio } from "@/apollo/actions";
 import withApollo from "@/core/hoc/withApollo";
-import { useQuery } from "@apollo/react-hooks";
 import { getDataFromTree } from "@apollo/react-ssr";
 
 interface Props {
@@ -10,9 +9,7 @@ interface Props {
 }
 
 const PortfolioDetail: any = ({ query }: Props) => {
-  const { data } = useQuery(GET_PORTFOLIO, {
-    variables: { id: query.id },
-  });
+  const { data } = useGetPortfolio(query.id);
 
   const portfolio = (data && data.portfolio) || {};
 
