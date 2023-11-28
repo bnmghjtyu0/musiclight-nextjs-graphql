@@ -1,4 +1,4 @@
-import AppLink from "@/components/shared/AppLink";
+import RankingCard from "@/components/shared/ranking-card/RankingCard";
 import withApollo from "@/core/hoc/withApollo";
 import { Hito } from "@/core/models/home/index.model";
 import { getDataFromTree } from "@apollo/react-ssr";
@@ -8,39 +8,52 @@ const Home = () => {
     {
       hitoId: "144",
       label: "華語排行",
+      img: {
+        url: "/assets/images/rank_empty.png",
+        width: 220,
+        height: 130,
+      },
     },
     {
       hitoId: "155",
       label: "日語排行",
+      img: {
+        url: "/assets/images/rank_empty.png",
+        width: 220,
+        height: 130,
+      },
     },
     {
       hitoId: "164",
       label: "英文排行",
+      img: {
+        url: "/assets/images/rank_empty.png",
+        width: 220,
+        height: 130,
+      },
     },
     {
       hitoId: "174",
       label: "韓語排行",
+      img: {
+        url: "/assets/images/rank_empty.png",
+        width: 220,
+        height: 130,
+      },
     },
   ];
+
   return (
-    <>
-      <h1>首頁</h1>
-      <div className="container">
-        <div className="row">
-          {hitoList.map((hito) => {
-            return (
-              <AppLink
-                key={hito.hitoId}
-                href={`/ranking/${hito.hitoId}`}
-                className="card-link"
-              >
-                {hito.label}
-              </AppLink>
-            );
-          })}
-        </div>
+    <div className="mt-5">
+      <h1>排行榜</h1>
+      <div className="row">
+        {hitoList.map((hito) => (
+          <div key={hito.hitoId} className="col-3">
+            <RankingCard hito={hito} />
+          </div>
+        ))}
       </div>
-    </>
+    </div>
   );
 };
 

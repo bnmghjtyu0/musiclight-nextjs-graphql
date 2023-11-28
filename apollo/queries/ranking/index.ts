@@ -14,6 +14,33 @@ export const GET_RANKING = gql`
         etag
         id
         snippet {
+          thumbnails {
+            default {
+              url
+              width
+              height
+            }
+            medium {
+              url
+              width
+              height
+            }
+            high {
+              url
+              width
+              height
+            }
+            standard {
+              url
+              width
+              height
+            }
+            maxres {
+              url
+              width
+              height
+            }
+          }
           publishedAt
           channelId
           title

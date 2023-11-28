@@ -14,12 +14,16 @@ const RankingDetail: any = ({ query }: Props) => {
 
   const ranking: Ranking[] = data?.ranking ?? [];
   return (
-    <div>
-      {ranking.map((rank) => {
-        return (
-          <div key={rank.etag}>{rank.items?.[0]?.snippet?.title ?? ""}</div>
-        );
-      })}
+    <div className="mt-5">
+      <ul className="list-group">
+        {ranking.map((rank) => {
+          return (
+            <li key={rank.etag} className="list-group-item">
+              {rank.items?.[0]?.snippet?.title ?? ""}
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 };

@@ -1,0 +1,21 @@
+.link {
+  position: relative;
+  width: 100%;
+  a {
+    border-radius: 12px;
+    display: block;
+    overflow: hidden;
+    height: 120px;
+    img {
+      width: 100%;
+      object-fit: cover;
+    }
+    span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+    }
+  }
+}
