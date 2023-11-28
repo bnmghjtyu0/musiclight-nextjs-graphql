@@ -1,4 +1,4 @@
-const Portfolio = () => {
+const Ranking = () => {
   return (
     <>
       <div>Hello World</div>
@@ -6,4 +6,4 @@ const Portfolio = () => {
   );
 };
 
-export default Portfolio;
+export default Ranking;

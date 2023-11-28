@@ -1,8 +1,8 @@
 import { ApolloServer, gql } from "apollo-server-express";
 import express, { Express, NextFunction, Request, Response } from "express";
 import next from "next";
-import { portfolioMutations, portfolioQueries } from "./graphql/resolvers";
-import { portfolioTypes } from "./graphql/types";
+import { rankingQueries } from "./graphql/resolvers/ranking";
+import { rankingSchema } from "./graphql/types";
 
 const port = process.env.PORT || 3000;
 
@@ -15,27 +15,16 @@ app.prepare().then(() => {
   const server: Express = express();
 
   const typeDefs = gql`
-    ${portfolioTypes}
+    ${rankingSchema}
     type Query {
-      hello: String
-      portfolio(id: ID): Portfolio
-      portfolios: [Portfolio]
-    }
-
-    type Mutation {
-      createPortfolio(input: PortfolioInput): Portfolio
-      updatePortfolio(id: ID, input: PortfolioInput): Portfolio
-      deletePortfolio(id: ID): ID
+      ranking(id: ID): [Ranking]
     }
   `;
 
   // 提供解決每個 api endpoint
   const resolvers = {
     Query: {
-      ...portfolioQueries,
-    },
-    Mutation: {
-      ...portfolioMutations,
+      ...rankingQueries,
     },
   };
 

@@ -9,7 +9,6 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       {Component.name !== "Login" && <Navbar />}
-      {pageProps.appData}
       <div className="container">
         <Component {...pageProps} />
       </div>
@@ -22,7 +21,7 @@ MyApp.getInitialProps = async (context: any) => {
     App.getInitialProps && (await App.getInitialProps(context));
 
   return {
-    pageProps: { appData: "Hello _App Component", ...initialProps.pageProps },
+    pageProps: { appData: "", ...initialProps.pageProps },
   };
 };
 
